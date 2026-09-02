@@ -11,6 +11,7 @@ import argparse
 import joblib
 import numpy as np
 import pandas as pd
+from features import engineer_features_dict as engineer_features
 
 MODELS_DIR = os.path.join(os.path.dirname(__file__), "..", "models")
 
@@ -26,14 +27,6 @@ def load_artifacts():
     feature_names = joblib.load(os.path.join(MODELS_DIR, "feature_names.joblib"))
     metadata = joblib.load(os.path.join(MODELS_DIR, "best_model_metadata.joblib"))
     return model, scaler, feature_names, metadata
-
-
-def engineer_features(raw: dict) -> dict:
-    """Apply the same derived features used during training."""
-    raw = dict(raw)
-    raw["BedroomsPerRoom"] = raw["AveBedrms"] / raw["AveRooms"]
-    raw["RoomsPerPerson"] = raw["AveRooms"] / raw["AveOccup"]
-    return raw
 
 
 def predict_price(raw_input: dict, model, scaler, feature_names) -> float:

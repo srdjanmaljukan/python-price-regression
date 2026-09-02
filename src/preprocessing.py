@@ -8,6 +8,7 @@ import pandas as pd
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from features import add_engineered_features
 
 TARGET_COL = "MedHouseVal"
 RANDOM_STATE = 42
@@ -18,19 +19,6 @@ def load_raw_data() -> pd.DataFrame:
     """Load the California Housing dataset into a single DataFrame."""
     housing = fetch_california_housing(as_frame=True)
     return housing.frame
-
-
-def add_engineered_features(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Add a few derived features that often help housing-price models:
-    - RoomsPerHousehold: average rooms per occupant
-    - BedroomsPerRoom: ratio of bedrooms to total rooms
-    - PopulationPerHousehold: same as AveOccup, kept explicit for clarity
-    """
-    df = df.copy()
-    df["BedroomsPerRoom"] = df["AveBedrms"] / df["AveRooms"]
-    df["RoomsPerPerson"] = df["AveRooms"] / df["AveOccup"]
-    return df
 
 
 def split_features_target(df: pd.DataFrame):
