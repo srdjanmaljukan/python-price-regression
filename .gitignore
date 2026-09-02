@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.ipynb_checkpoints/
+data/raw/*.csv
+!data/raw/.gitkeep
+models/*.joblib
+.env
